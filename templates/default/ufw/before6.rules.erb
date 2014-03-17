@@ -66,7 +66,7 @@ COMMIT
 # drop INVALID packets (logs these in loglevel medium and higher)
 -A ufw6-before-input -m state --state INVALID -j ufw6-logging-deny
 <% unless @is_openvz_ve -%>
-    -A ufw6-before-input -m state --state INVALID -j DROP
+-A ufw6-before-input -m state --state INVALID -j DROP
 <% end -%>
 
 # ok icmp codes
