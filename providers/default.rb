@@ -19,11 +19,15 @@
 
 
 action :enable do
-  setup_firewall(new_resource)
+  new_resource.updated_by_last_action(
+      setup_firewall(new_resource)
+  )
 end
 
 action :disable do
-  setup_firewall(new_resource)
+  new_resource.updated_by_last_action(
+      setup_firewall(new_resource)
+  )
 end
 
 private
@@ -35,7 +39,7 @@ def setup_firewall(new_resource)
   end
 
 
-  service 'ufw' do
+  r = service 'ufw' do
     supports  :status => true, :restart => true, :start => true, :stop => true
     action    :nothing
     notifies  :enable, 'firewall[ufw]'
@@ -123,11 +127,10 @@ def setup_firewall(new_resource)
     source      'gai.conf.erb'
     cookbook    'debnetwork'
     variables(
-        :is_openvz_ve => is_openvz_ve,
         :ipv4_preferred => new_resource.ipv4_preferred
     )
     mode 00644
   end
 
-  new_resource.updated_by_last_action(true)
+  r.updated_by_last_action?
 end
