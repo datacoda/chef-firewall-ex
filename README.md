@@ -1,6 +1,6 @@
-networking cookbook
+debnetwork cookbook
 ===================
-Simple networking for VPS nodes
+Simple networking for Debian/Ubuntu nodes
 
 
 Requirements

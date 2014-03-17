@@ -9,7 +9,7 @@ platforms:
   - name: ubuntu-12.04
 
 suites:
-  - name: networking
+  - name: debnetwork
     run_list:
-      - recipe[networking::default]
+      - recipe[debnetwork::default]
     attributes:
