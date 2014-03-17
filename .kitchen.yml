@@ -17,3 +17,9 @@ suites:
       debnetwork:
         send_redirects:
           action: disable
+        postrouting_rules: [
+          '-s 10.10.10.10 -j MASQUERADE'
+        ]
+        forward_rules: [
+          '-m state --state RELATED,ESTABLISHED -j ACCEPT'
+        ]

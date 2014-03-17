@@ -37,7 +37,9 @@ template "/etc/ufw/before.rules" do
   cookbook    node['debnetwork']['before_rules']['template_cookbook']
   mode        00640
   variables(
-      :is_openvz_ve => is_openvz_ve
+      :is_openvz_ve => is_openvz_ve,
+      :postrouting_rules => node['debnetwork']['postrouting_rules'],
+      :forward_rules => node['debnetwork']['forward_rules']
   )
   notifies    :enable, 'firewall[ufw]', :delayed
 end
@@ -47,7 +49,9 @@ template "/etc/ufw/before6.rules" do
   cookbook    node['debnetwork']['before6_rules']['template_cookbook']
   mode        00640
   variables(
-      :is_openvz_ve => is_openvz_ve
+      :is_openvz_ve => is_openvz_ve,
+      :postrouting_rules => node['debnetwork']['postrouting6_rules'],
+      :forward_rules => node['debnetwork']['forward6_rules']
   )
   notifies    :enable, 'firewall[ufw]', :delayed
 end

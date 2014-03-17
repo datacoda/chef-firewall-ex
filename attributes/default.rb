@@ -30,6 +30,11 @@ default['debnetwork']['send_redirects']['interfaces'] = Dir["/proc/sys/net/ipv4/
   interface
 end
 
+default['debnetwork']['postrouting_rules'] = [ ]
+default['debnetwork']['postrouting6_rules'] = [ ]
+default['debnetwork']['forward_rules'] = [ ]
+default['debnetwork']['forward6_rules'] = [ ]
+
 default['debnetwork']['after_rules']['template_source']      = 'ufw/after.rules.erb'
 default['debnetwork']['after_rules']['template_cookbook']    = 'debnetwork'
 

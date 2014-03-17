@@ -10,6 +10,18 @@
 #   ufw-before-forward
 #
 
+# nat Table rules
+*nat
+:POSTROUTING ACCEPT [0:0]
+-F POSTROUTING
+<% @postrouting_rules.each do |rule| -%>
+-A POSTROUTING <%= rule %>
+<% end -%>
+
+# don't delete the 'COMMIT' line or these nat table rules won't be processed
+COMMIT
+
+
 # Don't delete these required lines, otherwise there will be errors
 *filter
 :ufw-before-input - [0:0]
@@ -17,6 +29,11 @@
 :ufw-before-forward - [0:0]
 :ufw-not-local - [0:0]
 # End required lines
+
+# forwarding rules
+<% @forward_rules.each do |rule| -%>
+-A ufw-before-forward <%= rule %>
+<% end %>
 
 # allow all on loopback
 -A ufw-before-input -i lo -j ACCEPT
