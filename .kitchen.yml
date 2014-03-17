@@ -7,9 +7,13 @@ provisioner:
 
 platforms:
   - name: ubuntu-12.04
+  - name: debian-7.4
 
 suites:
   - name: debnetwork
     run_list:
       - recipe[debnetwork::default]
     attributes:
+      debnetwork:
+        send_redirects:
+          action: disable

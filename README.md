@@ -1,6 +1,8 @@
 debnetwork cookbook
 ===================
-Simple networking for Debian/Ubuntu nodes
+Simple networking for Debian/Ubuntu nodes.
+
+Includes guards for OpenVZ.
 
 
 Requirements
