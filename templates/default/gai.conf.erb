@@ -52,9 +52,11 @@
 #precedence ::/96          20
 #precedence ::ffff:0:0/96  10
 #
-#    For sites which prefer IPv4 connections change the last line to
 
+<% if @ipv4_preferred -%>
+#    For sites which prefer IPv4 connections change the last line to
 precedence ::ffff:0:0/96  100
+<% end -%>
 
 #
 # scopev4  <mask>  <value>

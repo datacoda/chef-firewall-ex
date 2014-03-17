@@ -7,8 +7,7 @@
 # Set to yes to apply rules to support IPv6 (no means only IPv6 on loopback
 # accepted). You will need to 'disable' and then 'enable' the firewall for
 # the changes to take affect.
-# OPENVZ: disable
-IPV6=<%= @enable_ipv6 ? "yes" : "no" %>
+IPV6=<%= @ipv6_enabled ? "yes" : "no" %>
 
 # Set the default input policy to ACCEPT, ACCEPT_NO_TRACK, DROP, or REJECT.
 # ACCEPT enables connection tracking for NEW inbound packets on the INPUT

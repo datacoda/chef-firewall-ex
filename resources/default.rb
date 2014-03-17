@@ -1,9 +1,9 @@
 #
 # Cookbook Name:: debnetwork
-# Recipe:: default
+# Resource:: default
 #
 # Copyright (C) 2014 Nephila Graphic
-# 
+#
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
@@ -17,10 +17,14 @@
 # limitations under the License.
 #
 
-# Fixes ufw on OpenVZ systems.
-# This overwrites the after/before/default configuration files.
+actions :enable, :disable
 
+attribute :name,              :kind_of => String, :name_attribute => true
 
-include_recipe 'firewall'
+attribute :ipv4_preferred,    :kind_of => [TrueClass, FalseClass], :default => true
+attribute :ipv6_enabled,      :kind_of => [TrueClass, FalseClass], :default => node['debnetwork']['ipv6_enabled']
 
-
+def initialize(*args)
+  super
+  @action = :enable
+end

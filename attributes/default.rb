@@ -18,10 +18,10 @@
 #
 
 
-default['debnetwork']['enable_ipv6'] = true
+default['debnetwork']['ipv6_enabled'] = true
 
 unless node.attribute? 'ip6address'
-  override['debnetwork']['enable_ipv6'] = false
+  override['debnetwork']['ipv6_enabled'] = false
 end
 
 default['debnetwork']['send_redirects']['action'] = :nothing

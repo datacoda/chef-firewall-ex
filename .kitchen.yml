@@ -12,7 +12,7 @@ platforms:
 suites:
   - name: debnetwork
     run_list:
-      - recipe[debnetwork::default]
+      - recipe[fake::default]
     attributes:
       debnetwork:
         send_redirects:

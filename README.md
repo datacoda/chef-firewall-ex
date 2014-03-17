@@ -1,6 +1,6 @@
 debnetwork cookbook
 ===================
-Simple networking for Debian/Ubuntu nodes.
+Simple networking LWRP for Debian/Ubuntu nodes.
 
 Includes guards for OpenVZ.
 
@@ -8,9 +8,18 @@ Includes guards for OpenVZ.
 Requirements
 ------------
 
+Depends on the `firewall` cookbook.
+
 
 Usage
 -----
+Including the default recipe will allow access to the LWRP
+
+```ruby
+debnetwork 'net' do
+  ipv4_preferred true
+end
+```
 
 
 Attributes
@@ -19,6 +28,9 @@ Attributes
 
 Recipes
 -------
+
+### default
+Enables usage of the LWRP `debnetwork`
 
 
 License & Authors
