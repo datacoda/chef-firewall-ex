@@ -20,7 +20,15 @@
 
 default['debnetwork']['ipv6_enabled'] = true
 
-unless node.attribute? 'ip6address'
+# Automatically turn off ipv6 if no global exists
+interfaces = node['network']['interfaces']
+ipv6found = interfaces.select do |iface, _|
+              interfaces[iface]['addresses'].select do |_, adata|
+                adata['scope'] == 'Global' && adata['family'] == 'inet6'
+              end.length > 0
+            end
+
+if ipv6found.empty?
   override['debnetwork']['ipv6_enabled'] = false
 end
 
