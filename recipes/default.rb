@@ -30,6 +30,13 @@ firewall_rule 'ssh' do
   notifies      :enable, 'firewall[ufw]'
 end
 
+service 'ufw' do
+  supports :status => true, :restart => true, :start => true, :stop => true
+  action :nothing
+  notifies      :enable, 'firewall[ufw]'
+end
+
+
 is_openvz_ve = node['virtualization']['system'] == 'openvz' && node['virtualization']['role'] == 'guest'
 
 template "/etc/ufw/before.rules" do
@@ -41,7 +48,7 @@ template "/etc/ufw/before.rules" do
       :postrouting_rules => node['debnetwork']['postrouting_rules'],
       :forward_rules => node['debnetwork']['forward_rules']
   )
-  notifies    :enable, 'firewall[ufw]', :delayed
+  notifies    :restart, 'service[ufw]'
 end
 
 template "/etc/ufw/before6.rules" do
@@ -53,7 +60,7 @@ template "/etc/ufw/before6.rules" do
       :postrouting_rules => node['debnetwork']['postrouting6_rules'],
       :forward_rules => node['debnetwork']['forward6_rules']
   )
-  notifies    :enable, 'firewall[ufw]', :delayed
+  notifies    :restart, 'service[ufw]'
 end
 
 
@@ -64,7 +71,7 @@ template "/etc/ufw/after.rules" do
   variables(
       :is_openvz_ve => is_openvz_ve
   )
-  notifies    :enable, 'firewall[ufw]', :delayed
+  notifies    :restart, 'service[ufw]'
 end
 
 template "/etc/ufw/after6.rules" do
@@ -74,7 +81,7 @@ template "/etc/ufw/after6.rules" do
   variables(
       :is_openvz_ve => is_openvz_ve
   )
-  notifies    :enable, 'firewall[ufw]', :delayed
+  notifies    :restart, 'service[ufw]'
 end
 
 
@@ -91,7 +98,7 @@ template "/etc/ufw/sysctl.conf" do
       :is_openvz_ve => is_openvz_ve,
       :disable_send_redirects => disable_send_redirects
   )
-  notifies    :enable, 'firewall[ufw]', :delayed
+  notifies    :restart, 'service[ufw]'
 end
 
 # Disable IPv6 on OpenVZ
@@ -103,7 +110,7 @@ template "/etc/default/ufw" do
       :is_openvz_ve => is_openvz_ve,
       :enable_ipv6 => node['debnetwork']['enable_ipv6']
   )
-  notifies    :enable, 'firewall[ufw]', :delayed
+  notifies    :restart, 'service[ufw]'
 end
 
 # Prefer ipv4 in gai.conf since ipv6 is blocked now.
