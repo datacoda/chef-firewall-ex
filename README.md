@@ -17,7 +17,13 @@ Including the default recipe will allow access to the LWRP
 
 ```ruby
 debnetwork 'net' do
-  ipv4_preferred true
+    ipv4_preferred true
+    send_redirects :disable
+
+    postrouting '-s 10.10.10.10 -j MASQUERADE'
+
+    forward '-m state --state RELATED,ESTABLISHED -j ACCEPT'
+    forward '-j ACCEPT'
 end
 ```
 
