@@ -93,20 +93,14 @@ def setup_firewall(new_resource)
     notifies    :restart, 'service[ufw]'
   end
 
-
-  send_redirects = Array.new
-  redirect_value = case new_resource.send_redirects
-                     when :enable
-                       1
-                     when :disable
-                       0
-                   end
+  # Send redirects aren't normally in the sysctl file.  We'll need to pull
+  # up all the interfaces
+  send_redirects_rules = Array.new
+  send_redirects_value = new_resource.send_redirects ? 1 : 0
 
   Dir["/proc/sys/net/ipv4/conf/*/send_redirects"].each do |interface|
     interface.sub!(/^\/proc\/sys\//, '')
-    unless redirect_value.nil?
-      send_redirects << "#{interface}=#{redirect_value}"
-    end
+    send_redirects_rules << "#{interface}=#{send_redirects_value}"
   end
 
   template '/etc/ufw/sysctl.conf' do
@@ -115,7 +109,10 @@ def setup_firewall(new_resource)
     mode        00644
     variables(
         :is_openvz_ve => is_openvz_ve,
-        :send_redirects => send_redirects
+        :ipv4_forward => new_resource.ipv4_forward,
+        :ipv6_forward => new_resource.ipv6_forward,
+        :accept_redirects_value => new_resource.accept_redirects ? 1 : 0,
+        :send_redirects_rules => send_redirects_rules
     )
     notifies    :restart, 'service[ufw]'
   end
@@ -127,6 +124,7 @@ def setup_firewall(new_resource)
     mode        00644
     variables(
         :is_openvz_ve => is_openvz_ve,
+        :ipv4_forward => new_resource.ipv4_forward,
         :ipv6_enabled => new_resource.ipv6_enabled
     )
     notifies    :restart, 'service[ufw]'

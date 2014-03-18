@@ -18,7 +18,11 @@ end
 
 debnetwork 'net' do
 
-  send_redirects  :disable
+  ipv4_forward      true
+  ipv4_preferred    true
+
+  accept_redirects  false
+  send_redirects    false
 
   postrouting '-s 10.10.10.10 -j MASQUERADE'
 

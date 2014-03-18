@@ -10,17 +10,17 @@
 
 <% unless @is_openvz_ve -%>
 # Uncomment this to allow this host to route packets between interfaces
-#net/ipv4/ip_forward=1
-#net/ipv6/conf/default/forwarding=1
-#net/ipv6/conf/all/forwarding=1
+net/ipv4/ip_forward=<%= @ipv4_forward ? '1' : '0' %>
+net/ipv6/conf/default/forwarding=<%= @ipv6_forward ? '1' : '0' %>
+net/ipv6/conf/all/forwarding=<%= @ipv6_forward ? '1' : '0' %>
 
 # Disable ICMP redirects. ICMP redirects are rarely used but can be used in
 # MITM (man-in-the-middle) attacks. Disabling ICMP may disrupt legitimate
 # traffic to those sites.
-net/ipv4/conf/all/accept_redirects=0
-net/ipv4/conf/default/accept_redirects=0
-net/ipv6/conf/all/accept_redirects=0
-net/ipv6/conf/default/accept_redirects=0
+net/ipv4/conf/all/accept_redirects=<%= @accept_redirects_value ? '1' : '0' %>
+net/ipv4/conf/default/accept_redirects=<%= @accept_redirects_value ? '1' : '0' %>
+net/ipv6/conf/all/accept_redirects=<%= @accept_redirects_value ? '1' : '0' %>
+net/ipv6/conf/default/accept_redirects=<%= @accept_redirects_value ? '1' : '0' %>
 
 # Ignore bogus ICMP errors
 net/ipv4/icmp_echo_ignore_broadcasts=1
@@ -46,6 +46,6 @@ net/ipv4/conf/default/log_martians=0
 <% end -%>
 
 # Enable/Disable all send_redirects
-<% @send_redirects.each do |rule| -%>
+<% @send_redirects_rules.each do |rule| -%>
 <%= rule %>
 <% end -%>

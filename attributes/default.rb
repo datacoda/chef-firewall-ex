@@ -17,7 +17,9 @@
 # limitations under the License.
 #
 
+default['debnetwork']['ipv4_forward'] = false
 default['debnetwork']['ipv4_preferred'] = false
+default['debnetwork']['ipv6_forward'] = false
 default['debnetwork']['ipv6_enabled'] = true
 
 # Automatically turn off ipv6 if no global exists
@@ -32,8 +34,8 @@ if ipv6found.empty?
   override['debnetwork']['ipv6_enabled'] = false
 end
 
-
-default['debnetwork']['send_redirects'] = :nothing
+default['debnetwork']['accept_redirects'] = false
+default['debnetwork']['send_redirects'] = true
 default['debnetwork']['postrouting_rules'] = [ ]
 default['debnetwork']['postrouting6_rules'] = [ ]
 default['debnetwork']['forward_rules'] = [ ]

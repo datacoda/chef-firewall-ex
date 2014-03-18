@@ -21,10 +21,14 @@ actions :enable, :disable
 
 attribute :name,                :kind_of => String, :name_attribute => true
 
+attribute :ipv4_forward,        :kind_of => [TrueClass, FalseClass], :default => node['debnetwork']['ipv4_forward']
 attribute :ipv4_preferred,      :kind_of => [TrueClass, FalseClass], :default => node['debnetwork']['ipv4_preferred']
+attribute :ipv6_forward,        :kind_of => [TrueClass, FalseClass], :default => node['debnetwork']['ipv6_forward']
 attribute :ipv6_enabled,        :kind_of => [TrueClass, FalseClass], :default => node['debnetwork']['ipv6_enabled']
 
-attribute :send_redirects,      :kind_of => Symbol, :equal_to => [:enable, :disable], :default => node['debnetwork']['send_redirects']
+attribute :accept_redirects,    :kind_of => [TrueClass, FalseClass], :default => node['debnetwork']['accept_redirects']
+attribute :send_redirects,      :kind_of => [TrueClass, FalseClass], :default => node['debnetwork']['send_redirects']
+
 attribute :postrouting_rules,   :kind_of => Array
 attribute :postrouting6_rules,  :kind_of => Array
 attribute :forward_rules,       :kind_of => Array
