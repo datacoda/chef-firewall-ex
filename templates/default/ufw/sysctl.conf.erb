@@ -45,7 +45,7 @@ net/ipv4/conf/default/log_martians=0
 
 <% end -%>
 
-# Disable all send_redirects (if any)
-<% @disable_send_redirects.each do |interface| -%>
-<%= interface %>=0
+# Enable/Disable all send_redirects
+<% @send_redirects.each do |rule| -%>
+<%= rule %>
 <% end -%>

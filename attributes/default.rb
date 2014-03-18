@@ -32,12 +32,8 @@ if ipv6found.empty?
   override['debnetwork']['ipv6_enabled'] = false
 end
 
-default['debnetwork']['send_redirects']['action'] = :nothing
-default['debnetwork']['send_redirects']['interfaces'] = Dir["/proc/sys/net/ipv4/conf/*/send_redirects"].each do |interface|
-  interface.sub!(/^\/proc\/sys\//, '')
-  interface
-end
 
+default['debnetwork']['send_redirects'] = :nothing
 default['debnetwork']['postrouting_rules'] = [ ]
 default['debnetwork']['postrouting6_rules'] = [ ]
 default['debnetwork']['forward_rules'] = [ ]

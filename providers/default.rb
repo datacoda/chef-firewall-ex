@@ -54,8 +54,8 @@ def setup_firewall(new_resource)
     mode        00640
     variables(
         :is_openvz_ve => is_openvz_ve,
-        :postrouting_rules => node['debnetwork']['postrouting_rules'],
-        :forward_rules => node['debnetwork']['forward_rules']
+        :postrouting_rules => new_resource.postrouting_rules,
+        :forward_rules => new_resource.forward_rules
     )
     notifies    :restart, 'service[ufw]'
   end
@@ -66,8 +66,8 @@ def setup_firewall(new_resource)
     mode        00640
     variables(
         :is_openvz_ve => is_openvz_ve,
-        :postrouting_rules => node['debnetwork']['postrouting6_rules'],
-        :forward_rules => node['debnetwork']['forward6_rules']
+        :postrouting_rules => new_resource.postrouting6_rules,
+        :forward_rules => new_resource.forward6_rules
     )
     notifies    :restart, 'service[ufw]'
   end
@@ -94,9 +94,19 @@ def setup_firewall(new_resource)
   end
 
 
-  disable_send_redirects = []
-  if node['debnetwork']['send_redirects']['action'] === 'disable'
-    disable_send_redirects = node['debnetwork']['send_redirects']['interfaces']
+  send_redirects = Array.new
+  redirect_value = case new_resource.send_redirects
+                     when :enable
+                       1
+                     when :disable
+                       0
+                   end
+
+  Dir["/proc/sys/net/ipv4/conf/*/send_redirects"].each do |interface|
+    interface.sub!(/^\/proc\/sys\//, '')
+    unless redirect_value.nil?
+      send_redirects << "#{interface}=#{redirect_value}"
+    end
   end
 
   template '/etc/ufw/sysctl.conf' do
@@ -105,7 +115,7 @@ def setup_firewall(new_resource)
     mode        00644
     variables(
         :is_openvz_ve => is_openvz_ve,
-        :disable_send_redirects => disable_send_redirects
+        :send_redirects => send_redirects
     )
     notifies    :restart, 'service[ufw]'
   end
