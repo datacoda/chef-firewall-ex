@@ -17,7 +17,7 @@
 # limitations under the License.
 #
 
-
+default['debnetwork']['ipv4_preferred'] = false
 default['debnetwork']['ipv6_enabled'] = true
 
 # Automatically turn off ipv6 if no global exists
