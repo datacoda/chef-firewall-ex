@@ -24,6 +24,9 @@ debnetwork 'net' do
   accept_redirects  false
   send_redirects    false
 
+  input '-p esp -j ACCEPT'
+  output '-p esp -j ACCEPT'
+
   postrouting '-s 10.10.10.10 -j MASQUERADE'
 
   forward '-m state --state RELATED,ESTABLISHED -j ACCEPT'

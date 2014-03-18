@@ -36,6 +36,9 @@ end
 
 default['debnetwork']['accept_redirects'] = false
 default['debnetwork']['send_redirects'] = true
+
+default['debnetwork']['input_rules'] = [ ]
+default['debnetwork']['output_rules'] = [ ]
 default['debnetwork']['postrouting_rules'] = [ ]
 default['debnetwork']['postrouting6_rules'] = [ ]
 default['debnetwork']['forward_rules'] = [ ]

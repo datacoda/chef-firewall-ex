@@ -29,6 +29,8 @@ attribute :ipv6_enabled,        :kind_of => [TrueClass, FalseClass], :default =>
 attribute :accept_redirects,    :kind_of => [TrueClass, FalseClass], :default => node['debnetwork']['accept_redirects']
 attribute :send_redirects,      :kind_of => [TrueClass, FalseClass], :default => node['debnetwork']['send_redirects']
 
+attribute :input_rules,         :kind_of => Array
+attribute :output_rules,        :kind_of => Array
 attribute :postrouting_rules,   :kind_of => Array
 attribute :postrouting6_rules,  :kind_of => Array
 attribute :forward_rules,       :kind_of => Array
@@ -37,6 +39,8 @@ attribute :forward6_rules,      :kind_of => Array
 
 def initialize(*args)
   super
+  @input_rules = node['debnetwork']['input_rules'].dup
+  @output_rules = node['debnetwork']['output_rules'].dup
   @postrouting_rules = node['debnetwork']['postrouting_rules'].dup
   @postrouting6_rules = node['debnetwork']['postrouting6_rules'].dup
   @forward_rules = node['debnetwork']['forward_rules'].dup
@@ -44,6 +48,15 @@ def initialize(*args)
   @action = :enable
 end
 
+def input(rule)
+  validate({ :rule => rule }, { :rule => { :kind_of => String }})
+  @input_rules << rule
+end
+
+def output(rule)
+  validate({ :rule => rule }, { :rule => { :kind_of => String }})
+  @output_rules << rule
+end
 
 def postrouting(rule)
   validate({ :rule => rule }, { :rule => { :kind_of => String }})

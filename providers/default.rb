@@ -54,6 +54,8 @@ def setup_firewall(new_resource)
     mode        00640
     variables(
         :is_openvz_ve => is_openvz_ve,
+        :input_rules => new_resource.input_rules,
+        :output_rules => new_resource.output_rules,
         :postrouting_rules => new_resource.postrouting_rules,
         :forward_rules => new_resource.forward_rules
     )
