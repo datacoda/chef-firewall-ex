@@ -111,7 +111,7 @@ def setup_firewall(new_resource)
         :is_openvz_ve => is_openvz_ve,
         :ipv4_forward => new_resource.ipv4_forward,
         :ipv6_forward => new_resource.ipv6_forward,
-        :accept_redirects_value => new_resource.accept_redirects ? 1 : 0,
+        :accept_redirects => new_resource.accept_redirects,
         :send_redirects_rules => send_redirects_rules
     )
     notifies    :restart, 'service[ufw]'
