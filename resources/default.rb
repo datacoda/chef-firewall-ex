@@ -32,7 +32,6 @@ attribute :send_redirects,      :kind_of => [TrueClass, FalseClass], :default =>
 attribute :input_rules,         :kind_of => Array
 attribute :output_rules,        :kind_of => Array
 attribute :postrouting_rules,   :kind_of => Array
-attribute :postrouting6_rules,  :kind_of => Array
 attribute :forward_rules,       :kind_of => Array
 attribute :forward6_rules,      :kind_of => Array
 
@@ -42,7 +41,6 @@ def initialize(*args)
   @input_rules = node['debnetwork']['input_rules'].dup
   @output_rules = node['debnetwork']['output_rules'].dup
   @postrouting_rules = node['debnetwork']['postrouting_rules'].dup
-  @postrouting6_rules = node['debnetwork']['postrouting6_rules'].dup
   @forward_rules = node['debnetwork']['forward_rules'].dup
   @forward6_rules = node['debnetwork']['forward6_rules'].dup
   @action = :enable
@@ -66,4 +64,10 @@ end
 def forward(rule)
   validate({ :rule => rule }, { :rule => { :kind_of => String }})
   @forward_rules << rule
+end
+
+
+def forward6(rule)
+  validate({ :rule => rule }, { :rule => { :kind_of => String }})
+  @forward6_rules << rule
 end

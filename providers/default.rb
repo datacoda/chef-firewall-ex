@@ -68,7 +68,6 @@ def setup_firewall(new_resource)
     mode        00640
     variables(
         :is_openvz_ve => is_openvz_ve,
-        :postrouting_rules => new_resource.postrouting6_rules,
         :forward_rules => new_resource.forward6_rules
     )
     notifies    :restart, 'service[ufw]'
