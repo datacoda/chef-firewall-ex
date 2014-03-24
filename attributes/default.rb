@@ -23,14 +23,21 @@ default['debnetwork']['ipv6_forward'] = false
 default['debnetwork']['ipv6_enabled'] = true
 
 # Automatically turn off ipv6 if no global exists
-interfaces = node['network']['interfaces']
-ipv6found = interfaces.select do |iface, _|
-              interfaces[iface]['addresses'].select do |_, adata|
-                adata['scope'] == 'Global' && adata['family'] == 'inet6'
-              end.length > 0
-            end
+inet6global = node['network']['interfaces'].select do |_, netdata|
+  unless netdata.attribute? 'addresses'
+    return false
+  end
 
-if ipv6found.empty?
+  inet6 = netdata['addresses'].select do |_, adata|
+    adata['scope'] == 'Global' && adata['family'] == 'inet6'
+  end
+
+  inet6.count > 0
+end
+
+
+if inet6global.empty?
+  Chef::Log.info 'Disabling ipv6 by default since no global interface is found'
   override['debnetwork']['ipv6_enabled'] = false
 end
 
