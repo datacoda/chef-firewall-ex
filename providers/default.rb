@@ -41,6 +41,7 @@ def setup_firewall(new_resource)
 
   r = service 'ufw' do
     supports  :status => true, :restart => true, :start => true, :stop => true
+    provider  Chef::Provider::Service::Upstart
     action    :nothing
     notifies  :enable, 'firewall[ufw]'
   end
