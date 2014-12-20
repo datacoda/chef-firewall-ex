@@ -1,9 +1,10 @@
 ---
-driver:
-  name: vagrant
+driver_plugin: vagrant
+driver_config:
+  require_chef_omnibus: true
 
 provisioner:
-  name: chef_solo
+  name: chef_zero
 
 platforms:
   - name: ubuntu-12.04
