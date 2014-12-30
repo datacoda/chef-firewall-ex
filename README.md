@@ -1,9 +1,15 @@
-debnetwork cookbook
+firewall-ex cookbook
 ===================
 Simple networking LWRP for Debian/Ubuntu nodes.
 
 Includes guards for OpenVZ.
+Extends 'firewall' to incorporate after, before, and sysctl rules as part of the firewall configuration.
 
+Tested on
+
+* Ubuntu 12.04
+* Ubuntu 14.04
+* Debian 7
 
 Requirements
 ------------
@@ -16,8 +22,7 @@ Usage
 Including the default recipe will allow access to the LWRP
 
 ```ruby
-debnetwork 'net' do
-    ipv4_preferred true
+firewall_ex 'net' do
     send_redirects :disable
 
     postrouting '-s 10.10.10.10 -j MASQUERADE'
@@ -31,12 +36,31 @@ end
 Attributes
 ----------
 
+### Default
+
+* `node['firewall-ex']['ipv4_forward']` - sets the ip_forward flag in sysctl.
+* `node['firewall-ex']['ipv6_forward']` - sets the ipv6 forwarding rules in sysctl.
+* `node['firewall-ex']['ipv6_enabled']` - apply rules to support IPv6
+
+* `node['firewall-ex']['accept_redirects']` - sets the accept_redirects flags in sysctl.
+* `node['firewall-ex']['send_redirects']` - sets the send_redirects flags in sysctl.
+
+The following firewall iptables rules can also be set as an array of lines.
+
+* `node['firewall-ex']['input_rules']` - 
+* `node['firewall-ex']['output_rules']` - 
+* `node['firewall-ex']['postrouting_rules']` - 
+* `node['firewall-ex']['forward_rules']` - 
+* `node['firewall-ex']['forward6_rules']` - 
+
+Those that are directly defined in the LWRP are appended to these lists which are empty by default.
+
 
 Recipes
 -------
 
 ### default
-Enables usage of the LWRP `debnetwork`
+Enables usage of the LWRP `firewall_ex`
 
 
 License & Authors

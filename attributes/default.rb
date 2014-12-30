@@ -1,9 +1,9 @@
 #
-# Cookbook Name:: debnetwork
+# Cookbook Name:: firewall-ex
 # Attributes:: default
 #
 # Copyright (C) 2014 Nephila Graphic
-# 
+#
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
@@ -17,53 +17,33 @@
 # limitations under the License.
 #
 
-default['debnetwork']['ipv4_forward'] = false
-default['debnetwork']['ipv4_preferred'] = false
-default['debnetwork']['ipv6_forward'] = false
-default['debnetwork']['ipv6_enabled'] = true
+default['firewall-ex']['ipv4_forward'] = false
+default['firewall-ex']['ipv6_forward'] = false
+default['firewall-ex']['ipv6_enabled'] = false
 
-# Automatically turn off ipv6 if no global exists
-inet6global = node['network']['interfaces'].select do |_, netdata|
-  unless netdata.attribute? 'addresses'
-    return false
-  end
+default['firewall-ex']['accept_redirects'] = false
+default['firewall-ex']['send_redirects'] = true
 
-  inet6 = netdata['addresses'].select do |_, adata|
-    adata['scope'] == 'Global' && adata['family'] == 'inet6'
-  end
+default['firewall-ex']['input_rules'] = []
+default['firewall-ex']['output_rules'] = []
+default['firewall-ex']['postrouting_rules'] = []
+default['firewall-ex']['forward_rules'] = []
+default['firewall-ex']['forward6_rules'] = []
 
-  inet6.count > 0
-end
+default['firewall-ex']['after_rules']['template_source'] = 'after.rules.erb'
+default['firewall-ex']['after_rules']['template_cookbook'] = 'firewall-ex'
 
+default['firewall-ex']['after6_rules']['template_source'] = 'after6.rules.erb'
+default['firewall-ex']['after6_rules']['template_cookbook'] = 'firewall-ex'
 
-if inet6global.empty?
-  Chef::Log.info 'Disabling ipv6 by default since no global interface is found'
-  override['debnetwork']['ipv6_enabled'] = false
-end
+default['firewall-ex']['before_rules']['template_source'] = 'before.rules.erb'
+default['firewall-ex']['before_rules']['template_cookbook'] = 'firewall-ex'
 
-default['debnetwork']['accept_redirects'] = false
-default['debnetwork']['send_redirects'] = true
+default['firewall-ex']['before6_rules']['template_source'] = 'before6.rules.erb'
+default['firewall-ex']['before6_rules']['template_cookbook'] = 'firewall-ex'
 
-default['debnetwork']['input_rules'] = [ ]
-default['debnetwork']['output_rules'] = [ ]
-default['debnetwork']['postrouting_rules'] = [ ]
-default['debnetwork']['forward_rules'] = [ ]
-default['debnetwork']['forward6_rules'] = [ ]
+default['firewall-ex']['default_ufw']['template_source'] = 'default.erb'
+default['firewall-ex']['default_ufw']['template_cookbook'] = 'firewall-ex'
 
-default['debnetwork']['after_rules']['template_source']      = 'ufw/after.rules.erb'
-default['debnetwork']['after_rules']['template_cookbook']    = 'debnetwork'
-
-default['debnetwork']['after6_rules']['template_source']     = 'ufw/after6.rules.erb'
-default['debnetwork']['after6_rules']['template_cookbook']   = 'debnetwork'
-
-default['debnetwork']['before_rules']['template_source']     = 'ufw/before.rules.erb'
-default['debnetwork']['before_rules']['template_cookbook']   = 'debnetwork'
-
-default['debnetwork']['before6_rules']['template_source']    = 'ufw/before6.rules.erb'
-default['debnetwork']['before6_rules']['template_cookbook']  = 'debnetwork'
-
-default['debnetwork']['default_ufw']['template_source']      = 'ufw/default.erb'
-default['debnetwork']['default_ufw']['template_cookbook']    = 'debnetwork'
-
-default['debnetwork']['sysctl_conf']['template_source']      = 'ufw/sysctl.conf.erb'
-default['debnetwork']['sysctl_conf']['template_cookbook']    = 'debnetwork'
+default['firewall-ex']['sysctl_conf']['template_source'] = 'sysctl.conf.erb'
+default['firewall-ex']['sysctl_conf']['template_cookbook'] = 'firewall-ex'

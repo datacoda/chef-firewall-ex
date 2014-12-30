@@ -1,7 +1,5 @@
 ---
 driver_plugin: vagrant
-driver_config:
-  require_chef_omnibus: true
 
 provisioner:
   name: chef_zero
@@ -12,11 +10,11 @@ platforms:
   - name: debian-7.4
 
 suites:
-  - name: debnetwork
+  - name: firewall-ex
     run_list:
       - recipe[fake::default]
     attributes:
-      debnetwork:
+      firewall-ex:
         postrouting_rules: [
           '-s 10.10.10.10 -j MASQUERADE'
         ]

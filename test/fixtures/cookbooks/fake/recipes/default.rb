@@ -1,28 +1,25 @@
 # Open the SSH port so we retain access
 
-include_recipe 'debnetwork'
+include_recipe 'firewall-ex'
 
 firewall 'ufw' do
   action :nothing
 end
 
 firewall_rule 'ssh' do
-  port      22
-  protocol  :tcp
-  action    :allow
-  notifies  :enable, 'firewall[ufw]'
+  port 22
+  protocol :tcp
+  action :allow
+  notifies :enable, 'firewall[ufw]'
 end
-
 
 # Test network setup using the LWRP
 
-debnetwork 'net' do
+firewall_ex 'net' do
+  ipv4_forward true
 
-  ipv4_forward      true
-  ipv4_preferred    true
-
-  accept_redirects  false
-  send_redirects    false
+  accept_redirects false
+  send_redirects false
 
   input '-p esp -j ACCEPT'
   output '-p esp -j ACCEPT'
@@ -31,5 +28,4 @@ debnetwork 'net' do
 
   forward '-m state --state RELATED,ESTABLISHED -j ACCEPT'
   forward '-j ACCEPT'
-
 end

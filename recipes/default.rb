@@ -1,9 +1,9 @@
 #
-# Cookbook Name:: debnetwork
+# Cookbook Name:: firewall-ex
 # Recipe:: default
 #
 # Copyright (C) 2014 Nephila Graphic
-# 
+#
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
@@ -20,7 +20,4 @@
 # Fixes ufw on OpenVZ systems.
 # This overwrites the after/before/default configuration files.
 
-
 include_recipe 'firewall'
-
-
