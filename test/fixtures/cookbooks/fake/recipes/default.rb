@@ -1,21 +1,18 @@
+include_recipe 'apt'
+
 # Open the SSH port so we retain access
 
 include_recipe 'firewall-ex'
-
-firewall 'ufw' do
-  action :nothing
-end
 
 firewall_rule 'ssh' do
   port 22
   protocol :tcp
   action :allow
-  notifies :enable, 'firewall[ufw]'
 end
 
 # Test network setup using the LWRP
 
-firewall_ex 'net' do
+firewall_ex 'my_ufw' do
   ipv4_forward true
 
   accept_redirects false
@@ -28,4 +25,6 @@ firewall_ex 'net' do
 
   forward '-m state --state RELATED,ESTABLISHED -j ACCEPT'
   forward '-j ACCEPT'
+
+  action :enable
 end

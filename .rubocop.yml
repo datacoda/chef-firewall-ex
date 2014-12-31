@@ -34,6 +34,7 @@ Metrics/AbcSize:
 AllCops:
   Exclude:
     - 'Guardfile'
+    - 'Rakefile'
     - "db/**/*"
     - "tmp/**/*"
     - "vendor/**/*"

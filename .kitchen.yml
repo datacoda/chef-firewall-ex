@@ -16,8 +16,8 @@ suites:
     attributes:
       firewall-ex:
         postrouting_rules: [
-          '-s 10.10.10.10 -j MASQUERADE'
+          '-s 10.10.10.11 -j MASQUERADE'
         ]
         forward_rules: [
-          '-m state --state RELATED,ESTABLISHED -j ACCEPT'
+          '-m state -s 10.10.10.11 --state RELATED,ESTABLISHED -j ACCEPT'
         ]

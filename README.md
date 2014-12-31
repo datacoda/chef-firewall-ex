@@ -1,9 +1,12 @@
 firewall-ex cookbook
 ===================
+[![Build Status](https://travis-ci.org/nephilagraphic-cookbooks/firewall-ex.svg?branch=master)](https://travis-ci.org/nephilagraphic-cookbooks/firewall-ex)
+
 Simple networking LWRP for Debian/Ubuntu nodes.
 
-Includes guards for OpenVZ.
 Extends 'firewall' to incorporate after, before, and sysctl rules as part of the firewall configuration.
+
+Includes also guards for OpenVZ containers.
 
 Tested on
 
@@ -19,16 +22,18 @@ Depends on the `firewall` cookbook.
 
 Usage
 -----
-Including the default recipe will allow access to the LWRP
+Including the default recipe will allow access to the LWRP along with install the base 'firewall::default' recipe.  Just use in place of the normal firewall LWRP.
 
 ```ruby
 firewall_ex 'net' do
-    send_redirects :disable
+  send_redirects false
 
-    postrouting '-s 10.10.10.10 -j MASQUERADE'
+  postrouting '-s 10.10.10.10 -j MASQUERADE'
 
-    forward '-m state --state RELATED,ESTABLISHED -j ACCEPT'
-    forward '-j ACCEPT'
+  forward '-m state --state RELATED,ESTABLISHED -j ACCEPT'
+  forward '-j ACCEPT'
+
+  action :enable
 end
 ```
 

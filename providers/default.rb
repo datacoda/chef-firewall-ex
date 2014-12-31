@@ -19,31 +19,21 @@
 
 action :enable do
   new_resource.updated_by_last_action(
-      setup_firewall(new_resource)
+      setup_firewall(new_resource, :enable)
   )
 end
 
 action :disable do
   new_resource.updated_by_last_action(
-      setup_firewall(new_resource)
+      setup_firewall(new_resource, :disable)
   )
 end
 
 private
 
-def setup_firewall(new_resource)
-  firewall 'ufw' do
-    action :nothing
-  end
-
-  r = service 'ufw' do
-    supports status: true,
-             restart: true,
-             start: true,
-             stop: true
-    provider Chef::Provider::Service::Upstart
-    action :nothing
-    notifies :enable, 'firewall[ufw]'
+def setup_firewall(new_resource, new_action)
+  firewall new_resource.name do
+    action new_action
   end
 
   # OpenVZ requires some fine tuning for UFW
@@ -129,6 +119,15 @@ def setup_firewall(new_resource)
       ipv6_enabled: new_resource.ipv6_enabled
     )
     notifies :restart, 'service[ufw]'
+  end
+
+  # Used to reload before/after rules as needed
+  r = service 'ufw' do
+    supports status: true,
+             restart: true,
+             start: true,
+             stop: true
+    action :nothing
   end
 
   r.updated_by_last_action?
