@@ -1,6 +1,6 @@
 firewall-ex cookbook
 ===================
-[![Build Status](https://travis-ci.org/nephilagraphic-cookbooks/firewall-ex.svg?branch=master)](https://travis-ci.org/nephilagraphic-cookbooks/firewall-ex)
+[![Build Status](https://travis-ci.org/dataferret/chef-firewall-ex.svg?branch=master)](https://travis-ci.org/dataferret/chef-firewall-ex)
 
 Simple networking LWRP for Debian/Ubuntu nodes.
 
