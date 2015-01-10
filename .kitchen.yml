@@ -12,6 +12,7 @@ platforms:
 suites:
   - name: firewall-ex
     run_list:
+      - recipe[apt::default]
       - recipe[fake::default]
     attributes:
       firewall-ex:

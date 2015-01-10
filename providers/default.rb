@@ -123,6 +123,12 @@ def setup_firewall(new_resource, new_action)
 
   # Used to reload before/after rules as needed
   r = service 'ufw' do
+    case node['platform']
+    when 'ubuntu'
+      provider Chef::Provider::Service::Upstart
+    when 'debian'
+      provider Chef::Provider::Service::Init::Debian
+    end
     supports status: true,
              restart: true,
              start: true,

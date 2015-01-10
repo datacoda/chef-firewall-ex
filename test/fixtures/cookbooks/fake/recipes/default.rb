@@ -1,5 +1,3 @@
-include_recipe 'apt'
-
 # Open the SSH port so we retain access
 
 include_recipe 'firewall-ex'
