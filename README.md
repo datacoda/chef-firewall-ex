@@ -1,5 +1,7 @@
 firewall-ex cookbook
 ===================
+![Latest cookbook](https://img.shields.io/cookbook/v/firewall-ex.svg)
+![Tag](https://img.shields.io/github/tag/dataferret/chef-firewall-ex.svg)
 [![Build Status](https://travis-ci.org/dataferret/chef-firewall-ex.svg?branch=master)](https://travis-ci.org/dataferret/chef-firewall-ex)
 
 Simple networking LWRP for Debian/Ubuntu nodes.
