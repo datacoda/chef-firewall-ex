@@ -17,7 +17,7 @@
 # limitations under the License.
 #
 
-actions :enable, :disable
+actions :install, :restart, :disable, :flush
 
 attribute :name, kind_of: String, name_attribute: true
 
@@ -41,7 +41,7 @@ def initialize(*args)
   @postrouting_rules = node['firewall-ex']['postrouting_rules'].dup
   @forward_rules = node['firewall-ex']['forward_rules'].dup
   @forward6_rules = node['firewall-ex']['forward6_rules'].dup
-  @action = :enable
+  @action = :install
 end
 
 def input(rule)

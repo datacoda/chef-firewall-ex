@@ -17,21 +17,34 @@
 # limitations under the License.
 #
 
-action :enable do
+action :install do
   new_resource.updated_by_last_action(
-      setup_firewall(new_resource, :enable)
+      setup_firewall(:restart)
+  )
+end
+
+action :restart do
+  new_resource.updated_by_last_action(
+      setup_firewall(:restart)
   )
 end
 
 action :disable do
-  new_resource.updated_by_last_action(
-      setup_firewall(new_resource, :disable)
-  )
+  firewall new_resource.name do
+    action :disable
+  end
 end
+
+action :flush do
+  firewall new_resource.name do
+    action :flush
+  end
+end
+
 
 private
 
-def setup_firewall(new_resource, new_action)
+def setup_firewall(new_action)
   firewall new_resource.name do
     action new_action
   end

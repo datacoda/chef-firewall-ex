@@ -5,7 +5,7 @@ include_recipe 'firewall-ex'
 firewall_rule 'ssh' do
   port 22
   protocol :tcp
-  action :allow
+  action :create
 end
 
 # Test network setup using the LWRP
@@ -24,5 +24,5 @@ firewall_ex 'my_ufw' do
   forward '-m state --state RELATED,ESTABLISHED -j ACCEPT'
   forward '-j ACCEPT'
 
-  action :enable
+  action :install
 end
