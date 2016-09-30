@@ -72,10 +72,10 @@ Enables usage of the LWRP `firewall_ex`
 
 License & Authors
 -----------------
-- Author:: Ted Chen (<ted@nephilagraphic.com>)
+- Author:: Li-Te Chen (<datacoda@gmail.com>)
 
 ```text
-Copyright 2014, Nephila Graphic
+Copyright 2014-2016, Nephila Graphic, Li-Te Chen
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
